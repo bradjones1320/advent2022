@@ -1,0 +1,161 @@
+package main
+
+import (
+	"bufio"
+	"fmt"
+	"os"
+	"strconv"
+	"strings"
+)
+
+func Reverse(input []string) []string {
+	inputLen := len(input)
+	output := make([]string, inputLen)
+
+	for i, n := range input {
+		j := inputLen - i - 1
+
+		output[j] = n
+	}
+
+	return output
+}
+
+func idk(m int, input []string) []string {
+
+	var myTemp []string
+
+	for m > 0 {
+		myTemp = append(myTemp, input[len(input)-m])
+
+		m -= 1
+	}
+	//myTemp = Reverse(myTemp)
+
+	return myTemp
+}
+
+func main() {
+	var x string
+	var temp1 []string
+	var counter int
+
+	stack1 := []string{"D", "L", "J", "R", "V", "G", "F"}
+	stack2 := []string{"T", "P", "M", "B", "V", "H", "J", "S"}
+	stack3 := []string{"V", "H", "M", "F", "D", "G", "P", "C"}
+	stack4 := []string{"M", "D", "P", "N", "G", "Q"}
+	stack5 := []string{"J", "L", "H", "N", "F"}
+	stack6 := []string{"N", "F", "V", "Q", "D", "G", "T", "Z"}
+	stack7 := []string{"F", "D", "B", "L"}
+	stack8 := []string{"M", "J", "B", "S", "V", "D", "N"}
+	stack9 := []string{"G", "L", "N"}
+
+	readFile, err := os.Open("./blah5.txt")
+	if err != nil {
+		fmt.Println(err)
+	}
+	fileScanner := bufio.NewScanner(readFile)
+	fileScanner.Split(bufio.ScanLines)
+	for fileScanner.Scan() {
+		counter += 1
+		fmt.Println(counter)
+		fmt.Println("----------------------------------------------------")
+		fmt.Print("1: ")
+		fmt.Println(stack1)
+		fmt.Print("2: ")
+		fmt.Println(stack2)
+		fmt.Print("3: ")
+		fmt.Println(stack3)
+		fmt.Print("4: ")
+		fmt.Println(stack4)
+		fmt.Print("5: ")
+		fmt.Println(stack5)
+		fmt.Print("6: ")
+		fmt.Println(stack6)
+		fmt.Print("7: ")
+		fmt.Println(stack7)
+		fmt.Print("8: ")
+		fmt.Println(stack8)
+		fmt.Print("9: ")
+		fmt.Println(stack9)
+
+		x = fileScanner.Text()
+
+		fmt.Println(x)
+
+		blah := strings.Split(x, " ")
+		move, _ := strconv.Atoi(blah[1])
+
+		switch blah[3] {
+		case "1":
+			temp1 = idk(move, stack1)
+			stack1 = stack1[:len(stack1)-move]
+		case "2":
+			temp1 = idk(move, stack2)
+			stack2 = stack2[:len(stack2)-move]
+		case "3":
+			temp1 = idk(move, stack3)
+			stack3 = stack3[:len(stack3)-move]
+		case "4":
+			temp1 = idk(move, stack4)
+			stack4 = stack4[:len(stack4)-move]
+		case "5":
+			temp1 = idk(move, stack5)
+			stack5 = stack5[:len(stack5)-move]
+		case "6":
+			temp1 = idk(move, stack6)
+			stack6 = stack6[:len(stack6)-move]
+		case "7":
+			temp1 = idk(move, stack7)
+			stack7 = stack7[:len(stack7)-move]
+		case "8":
+			temp1 = idk(move, stack8)
+			stack8 = stack8[:len(stack8)-move]
+		case "9":
+			temp1 = idk(move, stack9)
+			stack9 = stack9[:len(stack9)-move]
+		}
+
+		switch blah[5] {
+		case "1":
+			stack1 = append(stack1, temp1...)
+		case "2":
+			stack2 = append(stack2, temp1...)
+		case "3":
+			stack3 = append(stack3, temp1...)
+		case "4":
+			stack4 = append(stack4, temp1...)
+		case "5":
+			stack5 = append(stack5, temp1...)
+		case "6":
+			stack6 = append(stack6, temp1...)
+		case "7":
+			stack7 = append(stack7, temp1...)
+		case "8":
+			stack8 = append(stack8, temp1...)
+		case "9":
+			stack9 = append(stack9, temp1...)
+		}
+
+		fmt.Println(temp1)
+		fmt.Print("1: ")
+		fmt.Println(stack1)
+		fmt.Print("2: ")
+		fmt.Println(stack2)
+		fmt.Print("3: ")
+		fmt.Println(stack3)
+		fmt.Print("4: ")
+		fmt.Println(stack4)
+		fmt.Print("5: ")
+		fmt.Println(stack5)
+		fmt.Print("6: ")
+		fmt.Println(stack6)
+		fmt.Print("7: ")
+		fmt.Println(stack7)
+		fmt.Print("8: ")
+		fmt.Println(stack8)
+		fmt.Print("9: ")
+		fmt.Println(stack9)
+	}
+
+}

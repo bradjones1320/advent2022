@@ -1,0 +1,48 @@
+package main
+
+import (
+	"bufio"
+	"fmt"
+	"os"
+	"sort"
+	"strconv"
+)
+
+func main() {
+
+	tempElf := 0
+	var cal string
+	var x []int
+	readFile, err := os.Open("./blah.txt")
+	if err != nil {
+		fmt.Println(err)
+	}
+	fileScanner := bufio.NewScanner(readFile)
+
+	fileScanner.Split(bufio.ScanLines)
+
+	for fileScanner.Scan() {
+		cal = fileScanner.Text()
+
+		if cal != "" {
+			intCal, err := strconv.Atoi(cal)
+			if err != nil {
+				panic(err)
+			}
+			tempElf = tempElf + intCal
+		} else {
+
+			x = append(x, tempElf)
+			tempElf = 0
+		}
+	}
+	sort.Ints(x)
+	v1 := x[len(x)-1]
+	v2 := x[len(x)-2]
+	v3 := x[len(x)-3]
+	total := v1 + v2 + v3
+	fmt.Println(v1)
+	fmt.Println(total)
+	fmt.Println()
+
+}

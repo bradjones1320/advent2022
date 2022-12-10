@@ -1,0 +1,177 @@
+package main
+
+import (
+	"bufio"
+	"fmt"
+	"os"
+	"strings"
+)
+
+func main() {
+	var x, pack1, pack2, pack3 string
+	var pack1Runes []rune
+	var haveSet bool
+	var score int
+
+	//var pack1runes []rune
+	//var score, int //setNumber int
+
+	pack1 = ""
+	pack2 = ""
+	pack3 = ""
+	haveSet = false
+	readFile, err := os.Open("./blah3.txt")
+	if err != nil {
+		fmt.Println(err)
+	}
+	fileScanner := bufio.NewScanner(readFile)
+	fileScanner.Split(bufio.ScanLines)
+	for fileScanner.Scan() {
+
+		x = fileScanner.Text()
+
+		if pack1 == "" {
+			pack1 = x
+			pack1Runes = []rune(pack1)
+			continue
+		}
+		if pack2 == "" {
+			pack2 = x
+			continue
+		}
+		if pack3 == "" {
+			pack3 = x
+			haveSet = true
+		}
+
+		if haveSet {
+			fmt.Println("")
+			fmt.Println(pack1)
+			fmt.Println(pack2)
+			fmt.Println(pack3)
+
+			for _, v := range pack1Runes {
+
+				charSearch := string(v)
+				if strings.Contains(pack2, charSearch) && strings.Contains(pack3, charSearch) {
+					fmt.Println(string(v))
+
+					switch string(v) {
+					case "a":
+						score = score + 1
+					case "b":
+						score = score + 2
+					case "c":
+						score = score + 3
+					case "d":
+						score = score + 4
+					case "e":
+						score = score + 5
+					case "f":
+						score = score + 6
+					case "g":
+						score = score + 7
+					case "h":
+						score = score + 8
+					case "i":
+						score = score + 9
+					case "j":
+						score = score + 10
+					case "k":
+						score = score + 11
+					case "l":
+						score = score + 12
+					case "m":
+						score = score + 13
+					case "n":
+						score = score + 14
+					case "o":
+						score = score + 15
+					case "p":
+						score = score + 16
+					case "q":
+						score = score + 17
+					case "r":
+						score = score + 18
+					case "s":
+						score = score + 19
+					case "t":
+						score = score + 20
+					case "u":
+						score = score + 21
+					case "v":
+						score = score + 22
+					case "w":
+						score = score + 23
+					case "x":
+						score = score + 24
+					case "y":
+						score = score + 25
+					case "z":
+						score = score + 26
+					case "A":
+						score = score + 27
+					case "B":
+						score = score + 28
+					case "C":
+						score = score + 29
+					case "D":
+						score = score + 30
+					case "E":
+						score = score + 31
+					case "F":
+						score = score + 32
+					case "G":
+						score = score + 33
+					case "H":
+						score = score + 34
+					case "I":
+						score = score + 35
+					case "J":
+						score = score + 36
+					case "K":
+						score = score + 37
+					case "L":
+						score = score + 38
+					case "M":
+						score = score + 39
+					case "N":
+						score = score + 40
+					case "O":
+						score = score + 41
+					case "P":
+						score = score + 42
+					case "Q":
+						score = score + 43
+					case "R":
+						score = score + 44
+					case "S":
+						score = score + 45
+					case "T":
+						score = score + 46
+					case "U":
+						score = score + 47
+					case "V":
+						score = score + 48
+					case "W":
+						score = score + 49
+					case "X":
+						score = score + 50
+					case "Y":
+						score = score + 51
+					case "Z":
+						score = score + 52
+					}
+
+					pack1 = ""
+					pack2 = ""
+					pack3 = ""
+					haveSet = false
+					break
+				}
+			}
+		}
+	}
+
+	fmt.Println(score)
+}

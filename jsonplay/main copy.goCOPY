@@ -1,0 +1,138 @@
+package main
+
+import (
+	"fmt"
+	"strings"
+)
+
+func between(value string, a string, b string) string {
+	// Get substring between two strings.
+	posFirst := strings.Index(value, a)
+	if posFirst == -1 {
+		return ""
+	}
+	//todo: adjust this to always be greater than pos First... with out this is will just find the fist substring if it exist.
+	posLast := strings.Index(value, b)
+	if posLast == -1 {
+		return ""
+	}
+
+	posFirstAdjusted := posFirst + len(a)
+	if posFirstAdjusted >= posLast {
+		return ""
+	}
+	return value[posFirstAdjusted:posLast]
+}
+
+func before(value string, a string) string {
+	// Get substring before a string.
+	pos := strings.Index(value, a)
+	if pos == -1 {
+		return ""
+	}
+	return value[0:pos]
+}
+
+func after(value string, a string) string {
+	// Get substring after a string.
+	pos := strings.LastIndex(value, a)
+	if pos == -1 {
+		return ""
+	}
+	adjustedPos := pos + len(a)
+	if adjustedPos >= len(value) {
+		return ""
+	}
+	return value[adjustedPos:len(value)]
+}
+
+func main() {
+	//I'm thinking this should accept (string map, json (as string)) then return a []byte
+
+	//todo: fix the between function... code does not take into account if there are multiples of the same substring...
+	//this is to build the new json
+	var b strings.Builder
+
+	//temp strings
+	var tempStr, mybetween string
+	var closeCount int
+
+	unstructuredJson := `{"os": {"Windows": "Windows OS","Mac": "OSX","Linux": "Ubuntu"},"compilers": "gcc", "stuff": "morestuff"}`
+
+	//we need to use the " " in the replace if they are not used, we run the risk of replacing something we do not want to replace.
+
+	oldName := `"os"`
+	newName := `"blah"`
+	/*
+		oldName := `"compilers"`
+		newName := `"blah"`
+	*/
+	// this will change the json field names, but will not remove the suplus json we to not care about
+	newUnstructuredJson := strings.Replace(unstructuredJson, oldName, newName, 1) //todo: does this need to be in the loop?  maybe...
+	fmt.Println("new Json:" + newUnstructuredJson)
+
+	//start of the new json
+	b.WriteString(`{`)
+	b.WriteString(newName)
+	b.WriteString(`: `)
+
+	//testing to see if more json vaules are nested, or is this just single value
+	tempStr = newName + (": {")
+	fmt.Println("mytest:" + tempStr)
+	if (strings.Contains(newUnstructuredJson, tempStr)) == true {
+		b.WriteString(`{`)
+
+		//this part will be ugly
+		//todo: need logic if the nested is nested.  should test if { is in the substring then recursive loop... YUCK!
+		//going assume NOT nested for now to make progress
+		//todo: guessing this works because I'm looking for the first } in the string....  If I were looking for the second one the logic breaks
+		mybetween = between(newUnstructuredJson, tempStr, `}`)
+		closeCount = strings.Count(mybetween, "}") //this will let me know if there are multiple nested fields.  and how many there are.
+		if closeCount == 0 {
+			b.WriteString(mybetween) //I'm sure this will change...
+		} else {
+			//need to do some more magic. I'm not thinking about it for now.
+			//closeCount gives me the number of iterantion I need to loop through.  I have some substring craziness in my head I need to logic through ang go from there.
+		}
+		b.WriteString(`}`)
+	} else { //single value not nested
+
+		tempStr = newName + (": ")
+		fmt.Println("tempSring: " + tempStr)
+		//does not work because between function is not pulling the , after the tempStr...
+		mybetween = between(newUnstructuredJson, tempStr, ",") // if this fails it is the last item in the json and I need to get the between on } and not ,
+
+		fmt.Println("stuff between: " + mybetween)
+		b.WriteString(mybetween)
+	}
+
+	b.WriteString(`}`) //close json
+
+	//return this string
+	fmt.Println(b.String())
+
+	fmt.Println(strings.Contains(newUnstructuredJson, tempStr))
+
+	/* This can be used to validate the string builder is json (maybe need to confirm)  will need to err if not json and return error.
+	jsondata, err := json.Marshal(b.String())
+	if err != nil {
+		fmt.Println(err)
+		fmt.Println("json failed!")
+	} else {
+		fmt.Println("here is the byte array:")
+		fmt.Println(jsondata)
+	}
+	*/
+
+	//unstructuredJson := `{"os": {"Windows": "Windows OS","Mac": "OSX","Linux": "Ubuntu"},"compilers": "gcc", "stuff": "morestuff"}`
+	runes := []rune(unstructuredJson)
+	charCount := len(unstructuredJson)
+	fmt.Println(charCount)
+
+	pos := strings.Index(unstructuredJson, `compilers`)
+	fmt.Println(string(runes[0:pos]))
+	fmt.Println(string(runes[pos:charCount]))
+
+	fmt.Println(string(runes[0:(charCount)]))
+
+}

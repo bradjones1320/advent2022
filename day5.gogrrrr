@@ -1,0 +1,52 @@
+package main
+
+import (
+	"fmt"
+)
+
+func Reverse(input []string) []string {
+	inputLen := len(input)
+	output := make([]string, inputLen)
+
+	for i, n := range input {
+		j := inputLen - i - 1
+
+		output[j] = n
+	}
+
+	return output
+}
+
+func idk(m int, input []string) []string {
+
+	var myTemp []string
+
+	for m > 0 {
+		myTemp = append(myTemp, input[len(input)-m])
+
+		m -= 1
+	}
+	myTemp = Reverse(myTemp)
+	return myTemp
+}
+
+func main() {
+	var move int
+	move = 12
+	var myBlah []string
+	s := []string{"T", "P", "M", "B", "V", "H", "J", "C","V", "H", "M", "F", "D", "G", "P"}
+	s2 := []string{"blah1", "blah2", "test", "test2", "test3"}
+
+	myBlah = idk(move, s)
+
+	fmt.Println(myBlah)
+
+	fmt.Println(s2)
+	s2 = append(s2, myBlah...)
+	fmt.Println(s2)
+
+	s = s[:len(s)-move]
+
+	fmt.Println(s)
+
+}
